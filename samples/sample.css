@@ -21,3 +21,15 @@ footer {
     margin-top:25px;
     color:#999;
 }
+
+
+.try-it-out hr {
+    margin: 0px;
+    margin-top: 4px;
+}
+
+
+.try-it-out ul li{
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
