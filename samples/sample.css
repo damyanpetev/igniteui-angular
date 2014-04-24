@@ -10,10 +10,6 @@
     margin-top:1em;
 }
 
-nav {
-    margin-top:-6px;
-}
-
 footer {
     border-top:1px solid #ccc;
     background-color:#ddd;
@@ -22,6 +18,11 @@ footer {
     color:#999;
 }
 
+.description {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
 
 .try-it-out hr {
     margin: 0px;
