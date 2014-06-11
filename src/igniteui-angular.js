@@ -172,11 +172,8 @@
 		}, true);
 	};
 
-<<<<<<< HEAD
     // Utility functions
-=======
 	// Utility functions
->>>>>>> origin/master
 	function convertToCamelCase(str) {
 		//convert hyphen to camelCase
 		return str.replace(/-([a-z])/g, function (group) {
