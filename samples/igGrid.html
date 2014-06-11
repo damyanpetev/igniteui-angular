@@ -74,21 +74,12 @@
                     <column key="ProductID" header-text="Product ID" width="50px" data-type="number"></column>
                     <column key="ProductName" header-text="Name"  width="250px"  data-type="string"></column>
                     <column key="QuantityPerUnit" header-text="Quantity per unit"  width="200px" data-type="string"></column>
-<<<<<<< HEAD
-                    <column key="UnitPrice" header-text="Unit Price"  width="100px" data-type="string"></column>
-=======
                     <column key="UnitPrice" header-text="Unit Price"  width="100px" data-type="string" template="{{getHtml('#colTmpl')}}"></column>
->>>>>>> origin/master
                 </columns>
                 <features>
                     <feature name="Updating">
                         <column-settings>
-<<<<<<< HEAD
-                            <column-setting column-key="ProductID" read-only="true"/>
-=======
                             <column-setting column-key="ProductID" read-only="true">
-							</column-setting>
->>>>>>> origin/master
                         </column-settings>
                     </feature>
                     <feature name="Paging" page-size="10">
