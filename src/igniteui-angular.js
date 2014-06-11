@@ -323,7 +323,6 @@
 		return false;
 	}
 
-<<<<<<< HEAD
 	function getWidgetName(attrs) {
 	    for (var a in attrs) {
 	        if (a.substring(0, 2) === "ig") {
@@ -334,7 +333,6 @@
 	}
 
     // Interrogation functions
-=======
 	function getControlName(attrs) {
 		for (var a in attrs) {
 			if (a.substring(0, 2) === "ig") {
@@ -344,8 +342,6 @@
 		return undefined;
 	}
 
-	// Interrogation functions
->>>>>>> origin/master
 	function isDate(value) {
 		return Object.prototype.toString.call(value) === "[object Date]";
 	}
@@ -438,17 +434,10 @@
 		};
 	};
 
-<<<<<<< HEAD
-	for (var widget in $.ui) {
-		if (widget.substring(0, 2) === "ig") {
-			module.directive(widget, igniteElementDirectiveConstructor);
-			module.directive(widget, igniteAttributeDirectiveConstructor);
-=======
 	for (var control in $.ui) {
 		if (control.substring(0, 2) === "ig") {
 			module.directive(control, igniteElementDirectiveConstructor);
 			module.directive(control, igniteAttributeDirectiveConstructor);
->>>>>>> origin/master
 		}
 	}
 }(angular, jQuery));
