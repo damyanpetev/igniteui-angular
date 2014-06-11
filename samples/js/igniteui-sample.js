@@ -45,8 +45,6 @@ app.controller('gridController',
             $scope.newProduct = createNewProduct();
         };
 
-<<<<<<< HEAD
-=======
         $scope.gridOptions = {
             dataSource: $scope.northwind,
             width: "100%",
@@ -76,8 +74,6 @@ app.controller('gridController',
             }]
 
         };
-
->>>>>>> origin/master
     }]);
 
 app.controller('comboController',
