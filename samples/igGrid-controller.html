@@ -1,24 +1,16 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html ng-app="igniteui-sample">
 <head>
 	<title>Ignite UI Grid integration with AngularJS</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link type="text/css" href="//cdn-na.infragistics.com/jquery/20132/latest/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
-	<link type="text/css" href="//cdn-na.infragistics.com/jquery/20132/latest/css/structure/modules/infragistics.ui.shared.css" rel="stylesheet" />
-	<link type="text/css" href="//cdn-na.infragistics.com/jquery/20132/latest/css/structure/modules/infragistics.ui.grid.css" rel="stylesheet" />
-	<link type="text/css" href="//cdn-na.infragistics.com/jquery/20132/latest/css/structure/modules/infragistics.ui.editors.css" rel="stylesheet" />
+	<link type="text/css" href="//cdn-na.infragistics.com/jquery/20141/latest/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
+	<link type="text/css" href="//cdn-na.infragistics.com/jquery/20141/latest/css/structure/modules/infragistics.ui.shared.css" rel="stylesheet" />
+	<link type="text/css" href="//cdn-na.infragistics.com/jquery/20141/latest/css/structure/modules/infragistics.ui.grid.css" rel="stylesheet" />
+	<link type="text/css" href="//cdn-na.infragistics.com/jquery/20141/latest/css/structure/modules/infragistics.ui.editors.css" rel="stylesheet" />
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="sample.css" />
-    <script id="colTmpl" type="text/template" ng-non-bindable>
-        $ ${UnitPrice} 
-        {{if parseInt(${UnitPrice}) >= (Math.random()+0.5)*parseInt(${UnitPrice}) }} 
-        <img width='10' height='15' src= 'images/arrowUp.gif' />
-        {{else}}
-        <img width='10' height='15' src= 'images/arrowDown.gif' />
-        {{/if}}
-    </script>
 </head>
 <body class="container" ng-controller="gridController">
 
@@ -55,52 +47,16 @@
             </ul>
         </div>
         <div class="col-md-4">
-            <p class="lead">This sample demonstrates how AngularJS directives are used with the igGrid to allow for two-way binding in the grid.</p>
-            <p><a href="https://github.com/IgniteUI/igniteui-angular/blob/master/samples/igGrid.html" class="btn btn-default btn-lg btn-primary" target="_blank"><i class="fa fa-code fa-lg"></i> Explore the Code</a></p>
+            <p class="lead">This sample demonstrates how Controller options are used with the igGrid directive to allow for two-way binding in the grid.</p>
+            <p><a href="https://github.com/IgniteUI/igniteui-angular/blob/master/samples/igGrid-controller.html" class="btn btn-default btn-lg btn-primary" target="_blank"><i class="fa fa-code fa-lg"></i> Explore the Code</a></p>
         </div>
     </div>
     
     <div class="row">
         <div class="col-md-8">
-
-            <ig-grid id="grid1" 
-                     data-source="northwind" 
-                     width="100%" 
-                     height="400px" 
-                     primary-key="ProductID" 
-                     auto-commit="true" 
-                     auto-generate-columns="false">
-                <columns>
-                    <column key="ProductID" header-text="Product ID" width="50px" data-type="number"></column>
-                    <column key="ProductName" header-text="Name"  width="250px"  data-type="string"></column>
-                    <column key="QuantityPerUnit" header-text="Quantity per unit"  width="200px" data-type="string"></column>
-<<<<<<< HEAD
-                    <column key="UnitPrice" header-text="Unit Price"  width="100px" data-type="string"></column>
-=======
-                    <column key="UnitPrice" header-text="Unit Price"  width="100px" data-type="string" template="{{getHtml('#colTmpl')}}"></column>
->>>>>>> origin/master
-                </columns>
-                <features>
-                    <feature name="Updating">
-                        <column-settings>
-<<<<<<< HEAD
-                            <column-setting column-key="ProductID" read-only="true"/>
-=======
-                            <column-setting column-key="ProductID" read-only="true">
-							</column-setting>
->>>>>>> origin/master
-                        </column-settings>
-                    </feature>
-                    <feature name="Paging" page-size="10">
-                    </feature>
-                    <feature name="Filtering">
-                    </feature>
-                    <feature name="Sorting">
-                    </feature>
-                </features>
-            </ig-grid>
-            
+            <div data-ig-grid="gridOptions" id="grid1"></div>            
         </div>
+
         <div class="col-md-4">
             <h3>Add Product</h3>
             <div class="well well-sm">
@@ -150,18 +106,18 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
 
-	<script src="//cdn-na.infragistics.com/jquery/20132/latest/js/modules/infragistics.util.js"></script>
-	<script src="//cdn-na.infragistics.com/jquery/20132/latest/js/modules/infragistics.datasource.js"></script>
-	<script src="//cdn-na.infragistics.com/jquery/20132/latest/js/modules/infragistics.ui.shared.js"></script>
-	<script src="//cdn-na.infragistics.com/jquery/20132/latest/js/modules/infragistics.ui.grid.framework.js"></script>
-	<script src="//cdn-na.infragistics.com/jquery/20132/latest/js/modules/infragistics.ui.editors.js"></script>
-	<script src="//cdn-na.infragistics.com/jquery/20132/latest/js/modules/infragistics.ui.grid.updating.js"></script>
-	<script src="//cdn-na.infragistics.com/jquery/20132/latest/js/modules/infragistics.ui.grid.sorting.js"></script>
-    <script src="//cdn-na.infragistics.com/jquery/20132/latest/js/modules/infragistics.ui.grid.paging.js"></script>
-	<script src="//cdn-na.infragistics.com/jquery/20132/latest/js/modules/infragistics.ui.popover.js"></script>
-	<script src="//cdn-na.infragistics.com/jquery/20132/latest/js/modules/infragistics.ui.grid.featurechooser.js"></script>
-	<script src="//cdn-na.infragistics.com/jquery/20132/latest/js/modules/infragistics.ui.grid.filtering.js"></script>
-	<script src="//cdn-na.infragistics.com/jquery/20132/latest/js/modules/infragistics.templating.js"></script>
+	<script src="//cdn-na.infragistics.com/jquery/20141/latest/js/modules/infragistics.util.js"></script>
+	<script src="//cdn-na.infragistics.com/jquery/20141/latest/js/modules/infragistics.datasource.js"></script>
+	<script src="//cdn-na.infragistics.com/jquery/20141/latest/js/modules/infragistics.ui.shared.js"></script>
+	<script src="//cdn-na.infragistics.com/jquery/20141/latest/js/modules/infragistics.ui.grid.framework.js"></script>
+	<script src="//cdn-na.infragistics.com/jquery/20141/latest/js/modules/infragistics.ui.editors.js"></script>
+	<script src="//cdn-na.infragistics.com/jquery/20141/latest/js/modules/infragistics.ui.grid.updating.js"></script>
+	<script src="//cdn-na.infragistics.com/jquery/20141/latest/js/modules/infragistics.ui.grid.sorting.js"></script>
+    <script src="//cdn-na.infragistics.com/jquery/20141/latest/js/modules/infragistics.ui.grid.paging.js"></script>
+	<script src="//cdn-na.infragistics.com/jquery/20141/latest/js/modules/infragistics.ui.popover.js"></script>
+	<script src="//cdn-na.infragistics.com/jquery/20141/latest/js/modules/infragistics.ui.grid.featurechooser.js"></script>
+	<script src="//cdn-na.infragistics.com/jquery/20141/latest/js/modules/infragistics.ui.grid.filtering.js"></script>
+	<script src="//cdn-na.infragistics.com/jquery/20141/latest/js/modules/infragistics.templating.js"></script>
 	<script src="../src/igniteui-angular.js"></script>
 	<script src="js/igniteui-sample.js"></script>
 </body>

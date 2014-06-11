@@ -1,6 +1,7 @@
 /*global jQuery, angular */
 'use strict';
 (function (angular, $) {
+	"use strict";
 	$.ig = $.ig || {};
 	$.ig.angular = $.ig.angular || {};
 
@@ -85,8 +86,14 @@
 			return currentData;
 		};
 		// watch for changes from the data source to the view
-		scope.$watch(watchFn, function whatchGridDataSource(newValue, oldValue, currentValue) {
+		scope.$watch(watchFn, function watchGridDataSource(newValue, oldValue, currentValue) {
 			var i, j, pkKey = attrs.primaryKey, existingDomRow, existingRow, grid = element.data("igGrid"), gridUpdating = element.data("igGridUpdating"), column, record, td, colIndex, newFormattedVal, dsRecord, ds = scope.$eval(attrs.source);
+			// check for a change of the data source. In this case rebind the grid
+			if (ds !== grid.options.dataSource) {
+				grid.options.dataSource = ds;
+				grid.dataBind();
+				return;
+			}
 			// add/delete new rows
 			if (Array.isArray(newValue) && Array.isArray(oldValue)) {
 				// adding
@@ -128,7 +135,7 @@
 					}
 					for (j = 0; j < diff[i].txlog.length; j++) {
 						// if updating in progress - cancel it
-						if (gridUpdating.isEditing()) {
+						if (gridUpdating && gridUpdating.isEditing()) {
 							gridUpdating.endEdit(false);
 						}
 
@@ -165,7 +172,11 @@
 		}, true);
 	};
 
+<<<<<<< HEAD
     // Utility functions
+=======
+	// Utility functions
+>>>>>>> origin/master
 	function convertToCamelCase(str) {
 		//convert hyphen to camelCase
 		return str.replace(/-([a-z])/g, function (group) {
@@ -192,21 +203,36 @@
 	function extractOptions(nodeName, context, options, element, scope) {
 		//extract all options from the element
 		var i, name, value, arrayName, children = context.children,
-			attrs = context.attributes, eventName, eventAttrPerfix = "event-";
+			attrs = context.attributes, eventName, eventAttrPrefix = "event-";
 		for (i = 0; i < attrs.length; i++) {
 			name = attrs[i].name;
 			value = attrs[i].value;
 
-			if (name.startsWith(eventAttrPerfix)) {
-				name = name.substr(eventAttrPerfix.length).replace(/-/g, "").toLowerCase();
-				eventName = name.startsWith(nodeName.toLowerCase()) ? name : nodeName.toLowerCase() + name;
+			if (name.startsWith(eventAttrPrefix)) {
+				name = name.substr(eventAttrPrefix.length).replace(/-/g, "").toLowerCase();
+
+				if (name.startsWith(nodeName.toLowerCase())) {
+					eventName = name;
+				} else {
+
+					// for grid features we also need to prefix the feature name to the event name
+					// for instance: iggridselectionrowselectionchanged
+					var featureName = "";
+
+					if (attrs.name) {
+						featureName = attrs.name.nodeValue.toLowerCase();
+					}
+
+					eventName = nodeName.toLowerCase() + featureName + name;
+				}
+
 				element.on(eventName, scope.$eval(value));
 			} else {
 				name = convertToCamelCase(name);
 				
 				/* if somewhere in the controls there is floting point number use this one /^-?\d+\.?\d*$/ */
-				if (value === "true" || value === "false" || /^-?\d+\.?\d*$/.test(value) ) {
-					value = scope.$eval(value);
+				if (value === "true" || value === "false" || /^-?\d+\.?\d*$/.test(value) || /^{{(.)+}}$/.test(value)) {
+					value = scope.$eval(value.replace("{{","").replace("}}",""));
 				}
 				options[name] = value;
 			}
@@ -300,6 +326,7 @@
 		return false;
 	}
 
+<<<<<<< HEAD
 	function getWidgetName(attrs) {
 	    for (var a in attrs) {
 	        if (a.substring(0, 2) === "ig") {
@@ -310,6 +337,18 @@
 	}
 
     // Interrogation functions
+=======
+	function getControlName(attrs) {
+		for (var a in attrs) {
+			if (a.substring(0, 2) === "ig") {
+				return a;
+			}
+		}
+		return undefined;
+	}
+
+	// Interrogation functions
+>>>>>>> origin/master
 	function isDate(value) {
 		return Object.prototype.toString.call(value) === "[object Date]";
 	}
@@ -332,6 +371,10 @@
 		return Object.prototype.toString.call(value) === "[object Array]";
 	}
 
+	function getHtml(selector){
+		return $(selector).html();
+	};
+
 	// define modules and directives
 	var module = angular.module("igniteui-directives", []);
 
@@ -352,10 +395,15 @@
 			},
 			replace: true,
 			link: function (scope, element, attrs, ngModel) {
+				scope.getHtml = scope.getHtml || getHtml;
 				var nodeName = attrs["data-ig-control-name"];
 				if (nodeName) {
 					if (element.context) {
 						var res = extractOptions(nodeName, element.context, {}, element, scope);
+						// removing the width and height attributes on the placeholder, because they affect the control dimensions
+						if (element.removeAttr) {
+							element.removeAttr("width").removeAttr("height");
+						}
 						if (attrs.source) {
 							var ds = scope.$eval(attrs.source);
 							res.dataSource = ds;
@@ -374,21 +422,36 @@
 	// directive constructor for data-* attribute initialization
 	var igniteAttributeDirectiveConstructor = function () {
 		return {
-			restrict: "A",
-			link: function(scope, element, attrs) {
-				var widgetName = getWidgetName(attrs);
-				if (widgetName) {
-					var options = scope[attrs[widgetName]];
-					element[widgetName](options || {});
+		    restrict: "A",
+		    require: "?ngModel",
+			link: function(scope, element, attrs, ngModel) {
+				scope.getHtml = scope.getHtml || getHtml;
+				var controlName = getControlName(attrs);
+				if (controlName) {
+					var options = scope.$eval(attrs[controlName]);
+					attrs.source = attrs[controlName] + ".dataSource";
+					attrs.primaryKey = options.primaryKey;
+					// Two way data binding support using events from the controls
+					if ($.ig.angular[controlName] && $.ig.angular[controlName].bindEvents) {
+						$.ig.angular[controlName].bindEvents(scope, element, attrs, ngModel);
+					}
+					element[controlName](options || {});
 				}
 			}
 		};
 	};
 
+<<<<<<< HEAD
 	for (var widget in $.ui) {
 		if (widget.substring(0, 2) === "ig") {
 			module.directive(widget, igniteElementDirectiveConstructor);
 			module.directive(widget, igniteAttributeDirectiveConstructor);
+=======
+	for (var control in $.ui) {
+		if (control.substring(0, 2) === "ig") {
+			module.directive(control, igniteElementDirectiveConstructor);
+			module.directive(control, igniteAttributeDirectiveConstructor);
+>>>>>>> origin/master
 		}
 	}
 }(angular, jQuery));
