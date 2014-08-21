@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="sample.css" />
     <script id="colTmpl" type="text/template" ng-non-bindable>
-        <span ng-class="style"> $ {{UnitPrice}} {{ 20 < UnitPrice && UnitPrice < 30 ? "<img width='10' height='15' src= 'images/arrowUp.gif' />" : "<img width='10' height='15' src= 'images/arrowDown.gif' />"}} </span>
+        <span ng-class="style" class="{{style}}"> $ {{currentRecord.UnitPrice}} {{ 20 < currentRecord.UnitPrice && currentRecord.UnitPrice < 30 ? "<img width='10' height='15' src= 'images/arrowUp.gif' />" : "<img width='10' height='15' src= 'images/arrowDown.gif' />"}} </span>
     </script>
 </head>
 <body class="container" ng-controller="gridController">
@@ -155,11 +155,16 @@
     <script>
 
     // the interpolate service returns a templating function
-    var $interpolateService; 
+    var $interpolateService, $scopeRef; 
     $.ig.tmpl = function (tmpl, data) {
+        $scopeRef = $scopeRef || angular.element($('#grid1')).scope();
+
         data.UnitPrice = parseInt(data.UnitPrice);
+        $scopeRef.currentRecord = data;
+        $scopeRef.style = "red";
+      
         $interpolateService = $interpolateService || angular.element($('#grid1')).injector().get('$interpolate');
-        var template = $interpolateService(tmpl)(data);
+        var template = $interpolateService(tmpl)($scopeRef);
         return template;
     };
     </script>
