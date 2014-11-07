@@ -14,10 +14,14 @@ var app = angular.module('igniteui-sample', ['igniteui-directives']);
 
 // controllers
 app.controller('gridController',
-
-            ['$scope', 'northwind',
-    function ($scope,   northwind) {
-
+            ['$scope', '$compile', 'northwind',
+    function ($scope, $compile,  northwind) {
+	
+        // only needed until https://github.com/angular/angular.js/issues/6683 is resolved
+        for (var i = 0; i < northwind.data.length; i++) {
+            northwind.data[i].UnitPrice = parseFloat(northwind.data[i].UnitPrice);
+        };
+		
         $scope.northwind = northwind.data;
 
         var createNewProduct = function () {
@@ -35,7 +39,16 @@ app.controller('gridController',
             debugger;
             $scope.northwind.splice(index, 1);
         };
-
+		
+		$scope.deleteProductByKey = function (key) {
+			for (var i = 0; i < $scope.northwind.length; i++) {
+				if($scope.northwind[i].ProductID == key){
+					$scope.northwind.splice(i, 1);
+					return;
+				}
+			}
+        };
+		
         $scope.addProduct = function () {
             
             debugger;
@@ -44,7 +57,10 @@ app.controller('gridController',
 
             $scope.newProduct = createNewProduct();
         };
-
+				
+		$scope.compileRows = function(evt, ui) { 
+			$compile(ui.owner.element)($scope);
+		};
         $scope.gridOptions = {
             dataSource: $scope.northwind,
             width: "100%",
